@@ -1,0 +1,29 @@
+# Create solution file
+dotnet new sln -n QuickLists
+
+# Create Core class library
+dotnet new classlib -n QuickLists.Core -f net9.0
+dotnet sln add QuickLists.Core/QuickLists.Core.csproj
+
+# Create Infrastructure class library
+dotnet new classlib -n QuickLists.Infrastructure -f net9.0
+dotnet sln add QuickLists.Infrastructure/QuickLists.Infrastructure.csproj
+
+# Create API project
+dotnet new web -n QuickLists.Api -f net9.0
+dotnet sln add QuickLists.Api/QuickLists.Api.csproj
+
+# Add project references
+dotnet add QuickLists.Infrastructure/QuickLists.Infrastructure.csproj reference QuickLists.Core/QuickLists.Core.csproj
+dotnet add QuickLists.Api/QuickLists.Api.csproj reference QuickLists.Core/QuickLists.Core.csproj
+dotnet add QuickLists.Api/QuickLists.Api.csproj reference QuickLists.Infrastructure/QuickLists.Infrastructure.csproj
+
+# Add NuGet packages
+cd QuickLists.Infrastructure
+dotnet add package Microsoft.EntityFrameworkCore.Sqlite
+dotnet add package Microsoft.EntityFrameworkCore.Design
+cd ..
+
+cd QuickLists.Api
+dotnet add package Microsoft.EntityFrameworkCore.Design
+cd ..

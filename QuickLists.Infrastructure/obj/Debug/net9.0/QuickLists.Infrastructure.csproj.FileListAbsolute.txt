@@ -1,0 +1,5 @@
+C:\Programming\Projects\Dotnet-Api-Reference-Project\QuickLists.Infrastructure\obj\Debug\net9.0\QuickLists.Infrastructure.csproj.AssemblyReference.cache
+C:\Programming\Projects\Dotnet-Api-Reference-Project\QuickLists.Infrastructure\obj\Debug\net9.0\QuickLists.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Programming\Projects\Dotnet-Api-Reference-Project\QuickLists.Infrastructure\obj\Debug\net9.0\QuickLists.Infrastructure.AssemblyInfoInputs.cache
+C:\Programming\Projects\Dotnet-Api-Reference-Project\QuickLists.Infrastructure\obj\Debug\net9.0\QuickLists.Infrastructure.AssemblyInfo.cs
+C:\Programming\Projects\Dotnet-Api-Reference-Project\QuickLists.Infrastructure\obj\Debug\net9.0\QuickLists.Infrastructure.csproj.CoreCompileInputs.cache
