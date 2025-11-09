@@ -26,8 +26,7 @@ public static class ChecklistItemEndpoints
                     i.Checked
                 )));
             })
-            .WithName("GetChecklistItems")
-            .WithOpenApi();
+            .WithName("GetChecklistItems");
 
         // POST /api/checklists/{checklistId}/items - Create item
         group.MapPost("/checklists/{checklistId}/items", async (
@@ -65,8 +64,7 @@ public static class ChecklistItemEndpoints
 
                 return Results.Created($"/api/items/{created.Id}", response);
             })
-            .WithName("CreateChecklistItem")
-            .WithOpenApi();
+            .WithName("CreateChecklistItem");
 
         // PUT /api/items/{id} - Update item
         group.MapPut("/items/{id}", async (
@@ -109,8 +107,7 @@ public static class ChecklistItemEndpoints
                 );
                 return Results.Ok(response);
             })
-            .WithName("UpdateChecklistItem")
-            .WithOpenApi();
+            .WithName("UpdateChecklistItem");
 
         // PATCH /api/items/{id}/toggle - Toggle checked status
         group.MapPatch("/items/{id}/toggle", async (
@@ -134,8 +131,7 @@ public static class ChecklistItemEndpoints
                 );
                 return Results.Ok(response);
             })
-            .WithName("ToggleChecklistItem")
-            .WithOpenApi();
+            .WithName("ToggleChecklistItem");
 
         // PATCH /api/checklists/{checklistId}/reset - Reset all items
         group.MapPatch("/checklists/{checklistId}/reset", async (
@@ -152,8 +148,7 @@ public static class ChecklistItemEndpoints
 
                 return Results.NoContent();
             })
-            .WithName("ResetChecklistItems")
-            .WithOpenApi();
+            .WithName("ResetChecklistItems");
 
         // DELETE /api/items/{id} - Delete item
         group.MapDelete("/items/{id}", async (
@@ -170,7 +165,6 @@ public static class ChecklistItemEndpoints
 
                 return Results.NoContent();
             })
-            .WithName("DeleteChecklistItem")
-            .WithOpenApi();
+            .WithName("DeleteChecklistItem");
     }
 }

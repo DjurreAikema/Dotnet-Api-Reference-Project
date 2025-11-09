@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("QuickLists.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+df5c72fe7e59009a9fc4b5c7073f77da99db85ad")]
 [assembly: System.Reflection.AssemblyProductAttribute("QuickLists.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("QuickLists.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

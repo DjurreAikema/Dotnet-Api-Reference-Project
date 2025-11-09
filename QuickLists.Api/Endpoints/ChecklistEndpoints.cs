@@ -18,8 +18,7 @@ public static class ChecklistEndpoints
                 var checklists = await repository.GetAllChecklistsAsync();
                 return Results.Ok(checklists.Select(c => new ChecklistDto(c.Id, c.Title)));
             })
-            .WithName("GetAllChecklists")
-            .WithOpenApi();
+            .WithName("GetAllChecklists");
 
         // GET /api/checklists/{id} - Get single checklist
         group.MapGet("/{id}", async (string id, IChecklistRepository repository) =>
@@ -33,8 +32,7 @@ public static class ChecklistEndpoints
 
                 return Results.Ok(new ChecklistDto(checklist.Id, checklist.Title));
             })
-            .WithName("GetChecklistById")
-            .WithOpenApi();
+            .WithName("GetChecklistById");
 
         // POST /api/checklists - Create checklist
         group.MapPost("/", async (CreateChecklistDto dto, IChecklistRepository repository) =>
@@ -57,11 +55,10 @@ public static class ChecklistEndpoints
 
                 return Results.Created($"/api/checklists/{created.Id}", response);
             })
-            .WithName("CreateChecklist")
-            .WithOpenApi();
+            .WithName("CreateChecklist");
 
         // PUT /api/checklists/{id} - Update checklist
-        group.MapPut("/{id", async (string id, UpdateChecklistDto dto, IChecklistRepository repository) =>
+        group.MapPut("/{id}", async (string id, UpdateChecklistDto dto, IChecklistRepository repository) =>
             {
                 if (string.IsNullOrWhiteSpace(dto.Title))
                 {
@@ -84,8 +81,7 @@ public static class ChecklistEndpoints
                 var response = new ChecklistDto(updated.Id, updated.Title);
                 return Results.Ok(response);
             })
-            .WithName("UpdateChecklist")
-            .WithOpenApi();
+            .WithName("UpdateChecklist");
 
         // DELETE /api/checklists/{id} - Delete checklist
         group.MapDelete("/{id}", async (string id, IChecklistRepository repository) =>
@@ -98,8 +94,7 @@ public static class ChecklistEndpoints
 
                 return Results.NoContent();
             })
-            .WithName("DeleteChecklist")
-            .WithOpenApi();
+            .WithName("DeleteChecklist");
     }
 
     private static string GenerateSlug(string title)

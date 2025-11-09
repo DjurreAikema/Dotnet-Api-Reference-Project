@@ -1,0 +1,8 @@
+C:\Programming\Projects\Dotnet-Api-Reference-Project\QuickLists.Api\obj\Debug\net9.0\QuickLists.Api.csproj.AssemblyReference.cache
+C:\Programming\Projects\Dotnet-Api-Reference-Project\QuickLists.Api\obj\Debug\net9.0\QuickLists.Api.GeneratedMSBuildEditorConfig.editorconfig
+C:\Programming\Projects\Dotnet-Api-Reference-Project\QuickLists.Api\obj\Debug\net9.0\QuickLists.Api.AssemblyInfoInputs.cache
+C:\Programming\Projects\Dotnet-Api-Reference-Project\QuickLists.Api\obj\Debug\net9.0\QuickLists.Api.AssemblyInfo.cs
+C:\Programming\Projects\Dotnet-Api-Reference-Project\QuickLists.Api\obj\Debug\net9.0\QuickLists.Api.csproj.CoreCompileInputs.cache
+C:\Programming\Projects\Dotnet-Api-Reference-Project\QuickLists.Api\obj\Debug\net9.0\QuickLists.Api.MvcApplicationPartsAssemblyInfo.cs
+C:\Programming\Projects\Dotnet-Api-Reference-Project\QuickLists.Api\obj\Debug\net9.0\QuickLists.Api.MvcApplicationPartsAssemblyInfo.cache
+C:\Programming\Projects\Dotnet-Api-Reference-Project\QuickLists.Api\obj\Debug\net9.0\QuickLists.Api.sourcelink.json

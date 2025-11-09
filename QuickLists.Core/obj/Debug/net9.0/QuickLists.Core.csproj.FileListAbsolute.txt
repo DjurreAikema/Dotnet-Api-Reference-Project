@@ -9,3 +9,4 @@ C:\Programming\Projects\Dotnet-Api-Reference-Project\QuickLists.Core\obj\Debug\n
 C:\Programming\Projects\Dotnet-Api-Reference-Project\QuickLists.Core\obj\Debug\net9.0\refint\QuickLists.Core.dll
 C:\Programming\Projects\Dotnet-Api-Reference-Project\QuickLists.Core\obj\Debug\net9.0\QuickLists.Core.pdb
 C:\Programming\Projects\Dotnet-Api-Reference-Project\QuickLists.Core\obj\Debug\net9.0\ref\QuickLists.Core.dll
+C:\Programming\Projects\Dotnet-Api-Reference-Project\QuickLists.Core\obj\Debug\net9.0\QuickLists.Core.sourcelink.json
