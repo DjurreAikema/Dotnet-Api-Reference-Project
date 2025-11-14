@@ -1,11 +1,15 @@
 ﻿using MediatR;
+using QuickLists.Core.Caching;
 using QuickLists.Core.DTOs;
 using QuickLists.Core.Interfaces;
 
 namespace QuickLists.Core.Features.Checklists.Queries;
 
 // --- Query
-public record GetAllChecklistsQuery : IRequest<IEnumerable<ChecklistDto>>;
+public record GetAllChecklistsQuery : IRequest<IEnumerable<ChecklistDto>>, ICacheableQuery
+{
+    public string CacheKey => "checklists:all";
+}
 
 // --- Handler
 public class GetAllChecklistsQueryHandler(IChecklistRepository repository) : IRequestHandler<GetAllChecklistsQuery, IEnumerable<ChecklistDto>>

@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
+using QuickLists.Core.Caching;
 using QuickLists.Core.DTOs;
 using QuickLists.Core.Interfaces;
 using QuickLists.Core.Models;
@@ -7,7 +8,13 @@ using QuickLists.Core.Models;
 namespace QuickLists.Core.Features.ChecklistItems.Commands;
 
 // --- Command
-public record CreateChecklistItemCommand(string ChecklistId, string Title) : IRequest<ChecklistItemDto>;
+public record CreateChecklistItemCommand(string ChecklistId, string Title) : IRequest<ChecklistItemDto>, ICacheInvalidator
+{
+    public IEnumerable<string> CacheKeysToInvalidate =>
+    [
+        $"checklists:{ChecklistId}:items"
+    ];
+}
 
 // --- Validator
 public class CreateChecklistItemCommandValidator : AbstractValidator<CreateChecklistItemCommand>

@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
+using QuickLists.Core.Caching;
 using QuickLists.Core.DTOs;
 using QuickLists.Core.Interfaces;
 using QuickLists.Core.Models;
@@ -7,7 +8,13 @@ using QuickLists.Core.Models;
 namespace QuickLists.Core.Features.Checklists.Commands;
 
 // --- Command
-public record UpdateChecklistCommand(string Id, string Title) : IRequest<ChecklistDto?>;
+public record UpdateChecklistCommand(string Id, string Title) : IRequest<ChecklistDto?>, ICacheInvalidator
+{
+    public IEnumerable<string> CacheKeysToInvalidate =>
+    [
+        $"checklists:{Id}", "checklists:all"
+    ];
+}
 
 // --- Validator
 public class UpdateChecklistCommandValidator : AbstractValidator<UpdateChecklistCommand>

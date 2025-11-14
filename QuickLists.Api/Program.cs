@@ -1,9 +1,9 @@
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using QuickLists.Api.Endpoints;
 using QuickLists.Api.Middleware;
 using QuickLists.Core.Behaviors;
+using QuickLists.Core.Caching;
 using QuickLists.Core.Interfaces;
 using QuickLists.Infrastructure.Data;
 using QuickLists.Infrastructure.Data.Repositories;
@@ -29,6 +29,9 @@ try
     // Add Serilog to the logging pipeline
     builder.Host.UseSerilog();
 
+    // Add memory cache
+    builder.Services.AddMemoryCache();
+
     // Add services to the container
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
         options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
@@ -36,11 +39,15 @@ try
 
     builder.Services.AddScoped<IChecklistRepository, ChecklistRepository>();
 
+    builder.Services.AddSingleton<ICacheKeyRegistry, CacheKeyRegistry>();
+
     // Register MediatR with validation pipeline
     builder.Services.AddMediatR(config =>
     {
         config.RegisterServicesFromAssembly(typeof(QuickLists.Core.DTOs.ChecklistDto).Assembly);
+        // Order matters. Behaviors run in the order they're added
         config.AddOpenBehavior(typeof(ValidationBehavior<,>));
+        config.AddOpenBehavior(typeof(CachingBehavior<,>));
     });
 
     // Register all FluentValidation validators

@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Caching.Memory;
+using QuickLists.Core.Caching;
 using QuickLists.Core.DTOs;
 using QuickLists.Core.Interfaces;
 using QuickLists.Core.Models;
@@ -7,7 +9,10 @@ using QuickLists.Core.Models;
 namespace QuickLists.Core.Features.ChecklistItems.Commands;
 
 // --- Command
-public record UpdateChecklistItemCommand(string Id, string Title) : IRequest<ChecklistItemDto?>;
+public record UpdateChecklistItemCommand(string Id, string Title) : IRequest<ChecklistItemDto?>, ICacheInvalidator
+{
+    public IEnumerable<string> CacheKeysToInvalidate => [];
+}
 
 // --- Validator
 public class UpdateChecklistItemCommandValidator : AbstractValidator<UpdateChecklistItemCommand>
@@ -27,7 +32,7 @@ public class UpdateChecklistItemCommandValidator : AbstractValidator<UpdateCheck
 }
 
 // --- Handler
-public class UpdateChecklistItemCommandHandler(IChecklistRepository repository) : IRequestHandler<UpdateChecklistItemCommand, ChecklistItemDto?>
+public class UpdateChecklistItemCommandHandler(IChecklistRepository repository, IMemoryCache cache) : IRequestHandler<UpdateChecklistItemCommand, ChecklistItemDto?>
 {
     public async Task<ChecklistItemDto?> Handle(UpdateChecklistItemCommand request, CancellationToken cancellationToken)
     {
@@ -48,6 +53,9 @@ public class UpdateChecklistItemCommandHandler(IChecklistRepository repository) 
         };
 
         var updated = await repository.UpdateChecklistItemAsync(item);
+
+        // Manually invalidate the items cache since we didn't have ChecklistId in the command
+        cache.Remove($"checklists:{existingItem.ChecklistId}:items");
 
         return updated == null
             ? null

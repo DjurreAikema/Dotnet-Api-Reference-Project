@@ -1,11 +1,16 @@
 ﻿using MediatR;
+using QuickLists.Core.Caching;
 using QuickLists.Core.DTOs;
 using QuickLists.Core.Interfaces;
 
 namespace QuickLists.Core.Features.Checklists.Queries;
 
 // --- Query
-public record GetChecklistByIdQuery(string Id) : IRequest<ChecklistDto?>;
+public record GetChecklistByIdQuery(string Id) : IRequest<ChecklistDto?>, ICacheableQuery
+{
+    public string CacheKey => $"checklists:{Id}";
+    public TimeSpan? CacheDuration => TimeSpan.FromMinutes(10);
+}
 
 // --- Handler
 public class GetChecklistByIdQueryHandler(IChecklistRepository repository) : IRequestHandler<GetChecklistByIdQuery, ChecklistDto?>
