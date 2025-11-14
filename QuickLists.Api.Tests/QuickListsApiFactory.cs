@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using QuickLists.Infrastructure.Data;
 
@@ -13,7 +14,7 @@ public class QuickListsApiFactory : WebApplicationFactory<Program>
         builder.ConfigureServices(services =>
         {
             // Remove the real database configuration
-            var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>));
+            var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IDbContextOptionsConfiguration<ApplicationDbContext>));
             if (descriptor != null)
             {
                 services.Remove(descriptor);
