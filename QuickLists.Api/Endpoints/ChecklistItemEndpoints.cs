@@ -1,13 +1,7 @@
 ﻿using MediatR;
 using QuickLists.Core.DTOs;
-using QuickLists.Core.Features.ChecklistItems.Commands.CreateChecklistItem;
-using QuickLists.Core.Features.ChecklistItems.Commands.DeleteChecklistItem;
-using QuickLists.Core.Features.ChecklistItems.Commands.ResetChecklistItems;
-using QuickLists.Core.Features.ChecklistItems.Commands.ToggleChecklistItem;
-using QuickLists.Core.Features.ChecklistItems.Commands.UpdateChecklistItem;
-using QuickLists.Core.Features.ChecklistItems.Queries.GetChecklistItems;
-using QuickLists.Core.Interfaces;
-using QuickLists.Core.Models;
+using QuickLists.Core.Features.ChecklistItems.Commands;
+using QuickLists.Core.Features.ChecklistItems.Queries;
 
 namespace QuickLists.Api.Endpoints;
 

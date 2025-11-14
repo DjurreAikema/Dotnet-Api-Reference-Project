@@ -2,8 +2,12 @@
 using QuickLists.Core.DTOs;
 using QuickLists.Core.Interfaces;
 
-namespace QuickLists.Core.Features.ChecklistItems.Commands.ToggleChecklistItem;
+namespace QuickLists.Core.Features.ChecklistItems.Commands;
 
+// --- Command
+public record ToggleChecklistItemCommand(string Id) : IRequest<ChecklistItemDto?>;
+
+// --- Handler
 public class ToggleChecklistItemCommandHandler(IChecklistRepository repository) : IRequestHandler<ToggleChecklistItemCommand, ChecklistItemDto?>
 {
     public async Task<ChecklistItemDto?> Handle(ToggleChecklistItemCommand request, CancellationToken cancellationToken)

@@ -1,8 +1,12 @@
 ﻿using MediatR;
 using QuickLists.Core.Interfaces;
 
-namespace QuickLists.Core.Features.ChecklistItems.Commands.DeleteChecklistItem;
+namespace QuickLists.Core.Features.ChecklistItems.Commands;
 
+// --- Command
+public record DeleteChecklistItemCommand(string Id) : IRequest<bool>;
+
+// --- Handler
 public class DeleteChecklistItemCommandHandler(IChecklistRepository repository) : IRequestHandler<DeleteChecklistItemCommand, bool>
 {
     public async Task<bool> Handle(DeleteChecklistItemCommand request, CancellationToken cancellationToken)

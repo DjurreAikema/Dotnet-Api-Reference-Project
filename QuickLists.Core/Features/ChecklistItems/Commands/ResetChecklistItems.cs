@@ -1,8 +1,12 @@
 ﻿using MediatR;
 using QuickLists.Core.Interfaces;
 
-namespace QuickLists.Core.Features.ChecklistItems.Commands.ResetChecklistItems;
+namespace QuickLists.Core.Features.ChecklistItems.Commands;
 
+// --- Command
+public record ResetChecklistItemsCommand(string ChecklistId) : IRequest<bool>;
+
+// --- Handler
 public class ResetChecklistItemsCommandHandler(IChecklistRepository repository) : IRequestHandler<ResetChecklistItemsCommand, bool>
 {
     public async Task<bool> Handle(ResetChecklistItemsCommand request, CancellationToken cancellationToken)

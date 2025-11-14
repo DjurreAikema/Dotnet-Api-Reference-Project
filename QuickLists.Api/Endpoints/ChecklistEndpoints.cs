@@ -1,9 +1,6 @@
 ﻿using MediatR;
-using QuickLists.Core.Features.Checklists.Commands.CreateChecklist;
-using QuickLists.Core.Features.Checklists.Commands.DeleteChecklist;
-using QuickLists.Core.Features.Checklists.Commands.UpdateChecklist;
-using QuickLists.Core.Features.Checklists.Queries.GetAllChecklists;
-using QuickLists.Core.Features.Checklists.Queries.GetChecklistById;
+using QuickLists.Core.Features.Checklists.Commands;
+using QuickLists.Core.Features.Checklists.Queries;
 
 namespace QuickLists.Api.Endpoints;
 
