@@ -37,11 +37,6 @@ public static class ChecklistEndpoints
         // POST /api/checklists - Create checklist
         group.MapPost("/", async (CreateChecklistDto dto, IChecklistRepository repository) =>
             {
-                if (string.IsNullOrWhiteSpace(dto.Title))
-                {
-                    return Results.BadRequest("Title is required");
-                }
-
                 var checklist = new Checklist
                 {
                     Id = GenerateSlug(dto.Title),
@@ -60,11 +55,6 @@ public static class ChecklistEndpoints
         // PUT /api/checklists/{id} - Update checklist
         group.MapPut("/{id}", async (string id, UpdateChecklistDto dto, IChecklistRepository repository) =>
             {
-                if (string.IsNullOrWhiteSpace(dto.Title))
-                {
-                    return Results.BadRequest("Title is required");
-                }
-
                 // TODO: Verify checklist belongs to authenticated user
                 var checklist = new Checklist
                 {
@@ -87,12 +77,7 @@ public static class ChecklistEndpoints
         group.MapDelete("/{id}", async (string id, IChecklistRepository repository) =>
             {
                 var deleted = await repository.DeleteChecklistAsync(id);
-                if (!deleted)
-                {
-                    return Results.NotFound();
-                }
-
-                return Results.NoContent();
+                return !deleted ? Results.NotFound() : Results.NoContent();
             })
             .WithName("DeleteChecklist");
     }

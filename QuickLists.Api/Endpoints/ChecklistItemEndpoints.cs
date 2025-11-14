@@ -35,11 +35,6 @@ public static class ChecklistItemEndpoints
                 IChecklistRepository repository
             ) =>
             {
-                if (string.IsNullOrWhiteSpace(dto.Title))
-                {
-                    return Results.BadRequest("Title is required");
-                }
-
                 // TODO: Verify checklist belongs to authenticated user
                 var checklist = await repository.GetChecklistByIdAsync(checklistId);
                 if (checklist == null)
@@ -73,11 +68,6 @@ public static class ChecklistItemEndpoints
                 IChecklistRepository repository
             ) =>
             {
-                if (string.IsNullOrWhiteSpace(dto.Title))
-                {
-                    return Results.BadRequest("Title is required");
-                }
-
                 // TODO: Verify item's checklist belongs to authenticated user
                 var existingItem = await repository.GetChecklistItemByIdAsync(id);
                 if (existingItem == null)
@@ -141,12 +131,7 @@ public static class ChecklistItemEndpoints
             {
                 // TODO: Verify checklist belongs to authenticated user
                 var reset = await repository.ResetChecklistItemsAsync(checklistId);
-                if (!reset)
-                {
-                    return Results.NotFound();
-                }
-
-                return Results.NoContent();
+                return !reset ? Results.NotFound() : Results.NoContent();
             })
             .WithName("ResetChecklistItems");
 
@@ -158,12 +143,7 @@ public static class ChecklistItemEndpoints
             {
                 // TODO: Verify item's checklist belongs to authenticated user
                 var deleted = await repository.DeleteChecklistItemAsync(id);
-                if (!deleted)
-                {
-                    return Results.NotFound();
-                }
-
-                return Results.NoContent();
+                return !deleted ? Results.NotFound() : Results.NoContent();
             })
             .WithName("DeleteChecklistItem");
     }
