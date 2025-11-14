@@ -4,14 +4,9 @@ using QuickLists.Core.DTOs;
 
 namespace QuickLists.Api.Tests;
 
-public class ChecklistEndpointsTests : IClassFixture<QuickListsApiFactory>
+public class ChecklistEndpointsTests(QuickListsApiFactory factory) : IClassFixture<QuickListsApiFactory>
 {
-    private readonly HttpClient _client;
-
-    public ChecklistEndpointsTests(QuickListsApiFactory factory)
-    {
-        _client = factory.CreateClient();
-    }
+    private readonly HttpClient _client = factory.CreateClient();
 
     [Fact]
     public async Task GetAllChecklists_WithEmptyDatabase_ReturnsEmptyArray()
