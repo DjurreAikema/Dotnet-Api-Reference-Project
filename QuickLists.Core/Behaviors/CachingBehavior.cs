@@ -5,23 +5,13 @@ using QuickLists.Core.Caching;
 
 namespace QuickLists.Core.Behaviors;
 
-public class CachingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+public class CachingBehavior<TRequest, TResponse>(
+    IMemoryCache cache,
+    ICacheMetrics metrics,
+    ICacheKeyRegistry cacheKeyRegistry,
+    ILogger<CachingBehavior<TRequest, TResponse>> logger
+) : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
-    private readonly IMemoryCache _cache;
-    private readonly ICacheKeyRegistry _cacheKeyRegistry;
-    private readonly ILogger<CachingBehavior<TRequest, TResponse>> _logger;
-
-    public CachingBehavior(
-        IMemoryCache cache,
-        ICacheKeyRegistry cacheKeyRegistry,
-        ILogger<CachingBehavior<TRequest, TResponse>> logger
-    )
-    {
-        _cache = cache;
-        _cacheKeyRegistry = cacheKeyRegistry;
-        _logger = logger;
-    }
-
     public async Task<TResponse> Handle(
         TRequest request,
         RequestHandlerDelegate<TResponse> next,
@@ -49,9 +39,10 @@ public class CachingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
         var cacheKey = cacheableQuery.CacheKey;
 
         // Try to get from the cache
-        if (_cache.TryGetValue(cacheKey, out TResponse? cachedResponse))
+        if (cache.TryGetValue(cacheKey, out TResponse? cachedResponse))
         {
-            _logger.LogInformation(
+            metrics.RecordHit();
+            logger.LogInformation(
                 "Cache hit for {RequestName} with key {CacheKey}",
                 typeof(TRequest).Name,
                 cacheKey
@@ -61,7 +52,8 @@ public class CachingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
         }
 
         // Cache miss
-        _logger.LogInformation(
+        metrics.RecordMiss();
+        logger.LogInformation(
             "Cache miss for {RequestName} with key {CacheKey}",
             typeof(TRequest).Name,
             cacheKey
@@ -75,13 +67,13 @@ public class CachingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
             AbsoluteExpirationRelativeToNow = cacheableQuery.CacheDuration
         };
 
-        _cache.Set(cacheKey, response, cacheOptions);
+        cache.Set(cacheKey, response, cacheOptions);
 
         // Register the key for pattern-based invalidation
         var pattern = ExtractPattern(cacheKey);
-        _cacheKeyRegistry.Register(cacheKey, pattern);
+        cacheKeyRegistry.Register(cacheKey, pattern);
 
-        _logger.LogInformation(
+        logger.LogInformation(
             "Cached response for {RequestName} with key {CacheKey} for {Duration}",
             typeof(TRequest).Name,
             cacheKey,
@@ -108,9 +100,9 @@ public class CachingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
             }
             else
             {
-                _cache.Remove(cacheKeyPattern);
+                cache.Remove(cacheKeyPattern);
 
-                _logger.LogInformation(
+                logger.LogInformation(
                     "Invalidated cache key {CacheKey} after {CommandName}",
                     cacheKeyPattern,
                     typeof(TRequest).Name
@@ -123,14 +115,14 @@ public class CachingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
 
     private void InvalidateCachePattern(string pattern)
     {
-        var keysToRemove = _cacheKeyRegistry.GetKeysMatchingPattern(pattern.TrimEnd('*'));
+        var keysToRemove = cacheKeyRegistry.GetKeysMatchingPattern(pattern.TrimEnd('*'));
 
 
         foreach (var key in keysToRemove)
         {
-            _cache.Remove(key);
+            cache.Remove(key);
 
-            _logger.LogInformation(
+            logger.LogInformation(
                 "Invalidated cache key {CacheKey} matching pattern {Pattern}",
                 key,
                 pattern
@@ -139,7 +131,7 @@ public class CachingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
 
         if (!keysToRemove.Any())
         {
-            _logger.LogDebug(
+            logger.LogDebug(
                 "No cache keys found matching pattern {Pattern}",
                 pattern
             );

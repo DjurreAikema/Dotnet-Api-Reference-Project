@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using QuickLists.Core.Caching;
 using QuickLists.Core.Features.Checklists.Commands;
 using QuickLists.Core.Features.Checklists.Queries;
 
@@ -63,5 +64,19 @@ public static class ChecklistEndpoints
                     : Results.NotFound();
             })
             .WithName("DeleteChecklist");
+
+        // TODO Move this endpoint
+        group.MapGet("/cache/stats", (ICacheMetrics metrics) =>
+            {
+                var stats = metrics.GetStatistics();
+                return Results.Ok(new
+                {
+                    stats.TotalHits,
+                    stats.TotalMisses,
+                    HitRate = $"{stats.HitRate:P2}"
+                });
+            })
+            .WithName("GetCacheStatistics")
+            .ExcludeFromDescription();
     }
 }

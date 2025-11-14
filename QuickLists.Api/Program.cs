@@ -40,6 +40,7 @@ try
     builder.Services.AddScoped<IChecklistRepository, ChecklistRepository>();
 
     builder.Services.AddSingleton<ICacheKeyRegistry, CacheKeyRegistry>();
+    builder.Services.AddSingleton<ICacheMetrics, CacheMetrics>();
 
     // Register MediatR with validation pipeline
     builder.Services.AddMediatR(config =>
