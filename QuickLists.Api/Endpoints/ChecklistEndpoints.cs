@@ -97,6 +97,7 @@ public static class ChecklistEndpoints
             .WithName("DeleteChecklist");
     }
 
+    // --- Methods
     private static string GenerateSlug(string title)
     {
         var slug = title.ToLowerInvariant()

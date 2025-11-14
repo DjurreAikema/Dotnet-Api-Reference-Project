@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickLists.Infrastructure",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickLists.Api", "QuickLists.Api\QuickLists.Api.csproj", "{191DC82E-EB32-47C5-B7D0-004D890A160C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickLists.Api.Tests", "QuickLists.Api.Tests\QuickLists.Api.Tests.csproj", "{22139F4C-AC94-4566-9284-01F0743B239F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,18 @@ Global
 		{191DC82E-EB32-47C5-B7D0-004D890A160C}.Release|x64.Build.0 = Release|Any CPU
 		{191DC82E-EB32-47C5-B7D0-004D890A160C}.Release|x86.ActiveCfg = Release|Any CPU
 		{191DC82E-EB32-47C5-B7D0-004D890A160C}.Release|x86.Build.0 = Release|Any CPU
+		{22139F4C-AC94-4566-9284-01F0743B239F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22139F4C-AC94-4566-9284-01F0743B239F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22139F4C-AC94-4566-9284-01F0743B239F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{22139F4C-AC94-4566-9284-01F0743B239F}.Debug|x64.Build.0 = Debug|Any CPU
+		{22139F4C-AC94-4566-9284-01F0743B239F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{22139F4C-AC94-4566-9284-01F0743B239F}.Debug|x86.Build.0 = Debug|Any CPU
+		{22139F4C-AC94-4566-9284-01F0743B239F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22139F4C-AC94-4566-9284-01F0743B239F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22139F4C-AC94-4566-9284-01F0743B239F}.Release|x64.ActiveCfg = Release|Any CPU
+		{22139F4C-AC94-4566-9284-01F0743B239F}.Release|x64.Build.0 = Release|Any CPU
+		{22139F4C-AC94-4566-9284-01F0743B239F}.Release|x86.ActiveCfg = Release|Any CPU
+		{22139F4C-AC94-4566-9284-01F0743B239F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
