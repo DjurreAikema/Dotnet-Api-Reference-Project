@@ -1,6 +1,9 @@
-﻿using QuickLists.Core.DTOs;
-using QuickLists.Core.Interfaces;
-using QuickLists.Core.Models;
+﻿using MediatR;
+using QuickLists.Core.Features.Checklists.Commands.CreateChecklist;
+using QuickLists.Core.Features.Checklists.Commands.DeleteChecklist;
+using QuickLists.Core.Features.Checklists.Commands.UpdateChecklist;
+using QuickLists.Core.Features.Checklists.Queries.GetAllChecklists;
+using QuickLists.Core.Features.Checklists.Queries.GetChecklistById;
 
 namespace QuickLists.Api.Endpoints;
 
@@ -12,83 +15,56 @@ public static class ChecklistEndpoints
             .WithTags("Checklists");
 
         // GET /api/checklists - Get all checklists
-        group.MapGet("/", async (IChecklistRepository repository) =>
+        group.MapGet("/", async (IMediator mediator) =>
             {
-                // TODO: Get currentUserId from authenticated user context
-                var checklists = await repository.GetAllChecklistsAsync();
-                return Results.Ok(checklists.Select(c => new ChecklistDto(c.Id, c.Title)));
+                var query = new GetAllChecklistsQuery();
+                var result = await mediator.Send(query);
+                return Results.Ok(result);
             })
             .WithName("GetAllChecklists");
 
         // GET /api/checklists/{id} - Get single checklist
-        group.MapGet("/{id}", async (string id, IChecklistRepository repository) =>
+        group.MapGet("/{id}", async (string id, IMediator mediator) =>
             {
-                // TODO: Verify checklist belongs to authenticated user
-                var checklist = await repository.GetChecklistByIdAsync(id);
-                if (checklist == null)
-                {
-                    return Results.NotFound();
-                }
+                var query = new GetChecklistByIdQuery(id);
+                var result = await mediator.Send(query);
 
-                return Results.Ok(new ChecklistDto(checklist.Id, checklist.Title));
+                return result == null
+                    ? Results.NotFound()
+                    : Results.Ok(result);
             })
             .WithName("GetChecklistById");
 
         // POST /api/checklists - Create checklist
-        group.MapPost("/", async (CreateChecklistDto dto, IChecklistRepository repository) =>
+        group.MapPost("/", async (CreateChecklistCommand command, IMediator mediator) =>
             {
-                var checklist = new Checklist
-                {
-                    Id = GenerateSlug(dto.Title),
-                    Title = dto.Title
-                    // TODO: Set UserId from authenticated user
-                    // UserId = currentUserId
-                };
-
-                var created = await repository.CreateChecklistAsync(checklist);
-                var response = new ChecklistDto(created.Id, created.Title);
-
-                return Results.Created($"/api/checklists/{created.Id}", response);
+                var result = await mediator.Send(command);
+                return Results.Created($"/api/checklists/{result.Id}", result);
             })
             .WithName("CreateChecklist");
 
         // PUT /api/checklists/{id} - Update checklist
-        group.MapPut("/{id}", async (string id, UpdateChecklistDto dto, IChecklistRepository repository) =>
+        group.MapPut("/{id}", async (string id, UpdateChecklistCommand command, IMediator mediator) =>
             {
-                // TODO: Verify checklist belongs to authenticated user
-                var checklist = new Checklist
-                {
-                    Id = id,
-                    Title = dto.Title
-                };
+                var updateCommand = command with {Id = id};
+                var result = await mediator.Send(updateCommand);
 
-                var updated = await repository.UpdateChecklistAsync(checklist);
-                if (updated == null)
-                {
-                    return Results.NotFound();
-                }
-
-                var response = new ChecklistDto(updated.Id, updated.Title);
-                return Results.Ok(response);
+                return result == null
+                    ? Results.NotFound()
+                    : Results.Ok(result);
             })
             .WithName("UpdateChecklist");
 
         // DELETE /api/checklists/{id} - Delete checklist
-        group.MapDelete("/{id}", async (string id, IChecklistRepository repository) =>
+        group.MapDelete("/{id}", async (string id, IMediator mediator) =>
             {
-                var deleted = await repository.DeleteChecklistAsync(id);
-                return !deleted ? Results.NotFound() : Results.NoContent();
+                var command = new DeleteChecklistCommand(id);
+                var deleted = await mediator.Send(command);
+
+                return deleted
+                    ? Results.NoContent()
+                    : Results.NotFound();
             })
             .WithName("DeleteChecklist");
-    }
-
-    // --- Methods
-    private static string GenerateSlug(string title)
-    {
-        var slug = title.ToLowerInvariant()
-            .Replace(" ", "-")
-            .Replace("'", "");
-
-        return $"{slug}-{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}";
     }
 }

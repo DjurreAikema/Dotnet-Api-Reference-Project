@@ -3,6 +3,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using QuickLists.Api.Endpoints;
 using QuickLists.Api.Middleware;
+using QuickLists.Core.Behaviors;
 using QuickLists.Core.Interfaces;
 using QuickLists.Infrastructure.Data;
 using QuickLists.Infrastructure.Data.Repositories;
@@ -35,13 +36,15 @@ try
 
     builder.Services.AddScoped<IChecklistRepository, ChecklistRepository>();
 
-    // Add FluentValidation
-    builder.Services.AddValidatorsFromAssemblyContaining<QuickLists.Core.DTOs.ChecklistDto>(); // TODO What does this do?
-    builder.Services.AddFluentValidationAutoValidation(config =>
+    // Register MediatR with validation pipeline
+    builder.Services.AddMediatR(config =>
     {
-        // Disable the built-in .NET model validator
-        config.DisableDataAnnotationsValidation = true;
+        config.RegisterServicesFromAssembly(typeof(QuickLists.Core.DTOs.ChecklistDto).Assembly);
+        config.AddOpenBehavior(typeof(ValidationBehavior<,>));
     });
+
+    // Register all FluentValidation validators
+    builder.Services.AddValidatorsFromAssembly(typeof(QuickLists.Core.DTOs.ChecklistDto).Assembly);
 
     // Add problem details support
     builder.Services.AddProblemDetails();

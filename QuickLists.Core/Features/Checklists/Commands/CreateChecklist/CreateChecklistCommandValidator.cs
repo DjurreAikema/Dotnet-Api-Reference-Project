@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 
-namespace QuickLists.Core.DTOs.Validators;
+namespace QuickLists.Core.Features.Checklists.Commands.CreateChecklist;
 
-public class UpdateChecklistDtoValidator : AbstractValidator<UpdateChecklistDto>
+public class CreateChecklistCommandValidator : AbstractValidator<CreateChecklistCommand>
 {
-    public UpdateChecklistDtoValidator()
+    public CreateChecklistCommandValidator()
     {
         RuleFor(x => x.Title)
             .NotEmpty()
