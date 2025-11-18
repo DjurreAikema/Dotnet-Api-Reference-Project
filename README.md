@@ -69,8 +69,8 @@ Behaviors execute in order: Validation → Caching → Handler.
 
 The caching system uses pattern-based invalidation with a registry:
 
-- **Cacheable Queries**: Implement `ICacheableQuery` interface ([example](QuickLists.Core/Features/Checklists/Queries/GetAllChecklists.cs#L10-L13))
-- **Cache Invalidation**: Commands specify which cache keys to invalidate ([example](QuickLists.Core/Features/Checklists/Commands/CreateChecklist.cs#L11-L16))
+- **Cacheable Queries**: Implement `ICacheableQuery` interface ([example](QuickLists.Core/Features/Checklists/Queries/GetAllChecklists.cs#L9-L12))
+- **Cache Invalidation**: Commands specify which cache keys to invalidate ([example](QuickLists.Core/Features/Checklists/Commands/CreateChecklist.cs#L11-L17))
 - **Pattern Matching**: Wildcard patterns like `checklists:*` invalidate all related caches
 - **Metrics**: Built-in cache hit/miss tracking ([`CacheMetrics.cs`](QuickLists.Core/Caching/CacheMetrics.cs))
 
@@ -124,7 +124,7 @@ No unit tests for simple CRUD operations with no business logic—integration te
 
 ### Structured Logging with Serilog
 
-- **Serilog integration**: Structured logging to console and file ([`Program.cs`](QuickLists.Api/Program.cs#L10-L18))
+- **Serilog integration**: Structured logging to console and file ([`Program.cs`](QuickLists.Api/Program.cs#L12-L21))
 - **Request logging**: Automatic HTTP request/response logging
 - **Rolling files**: Daily log rotation with structured output
 - **Context enrichment**: Correlation IDs and contextual information
