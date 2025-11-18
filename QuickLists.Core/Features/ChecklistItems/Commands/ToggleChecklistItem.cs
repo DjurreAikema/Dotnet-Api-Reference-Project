@@ -13,7 +13,7 @@ public record ToggleChecklistItemCommand(string Id) : IRequest<ChecklistItemDto?
 }
 
 // --- Handler
-public class ToggleChecklistItemCommandHandler(IChecklistRepository repository, IMemoryCache cache) : IRequestHandler<ToggleChecklistItemCommand, ChecklistItemDto?>
+public class ToggleChecklistItemCommandHandler(IChecklistItemRepository repository, IMemoryCache cache) : IRequestHandler<ToggleChecklistItemCommand, ChecklistItemDto?>
 {
     public async Task<ChecklistItemDto?> Handle(ToggleChecklistItemCommand request, CancellationToken cancellationToken)
     {

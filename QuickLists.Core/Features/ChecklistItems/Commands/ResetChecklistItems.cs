@@ -14,7 +14,7 @@ public record ResetChecklistItemsCommand(string ChecklistId) : IRequest<bool>, I
 }
 
 // --- Handler
-public class ResetChecklistItemsCommandHandler(IChecklistRepository repository) : IRequestHandler<ResetChecklistItemsCommand, bool>
+public class ResetChecklistItemsCommandHandler(IChecklistItemRepository repository) : IRequestHandler<ResetChecklistItemsCommand, bool>
 {
     public async Task<bool> Handle(ResetChecklistItemsCommand request, CancellationToken cancellationToken)
     {

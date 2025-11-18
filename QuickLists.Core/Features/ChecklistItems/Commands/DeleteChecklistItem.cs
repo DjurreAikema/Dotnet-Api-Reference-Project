@@ -12,7 +12,7 @@ public record DeleteChecklistItemCommand(string Id) : IRequest<bool>, ICacheInva
 }
 
 // --- Handler
-public class DeleteChecklistItemCommandHandler(IChecklistRepository repository, IMemoryCache cache) : IRequestHandler<DeleteChecklistItemCommand, bool>
+public class DeleteChecklistItemCommandHandler(IChecklistItemRepository repository, IMemoryCache cache) : IRequestHandler<DeleteChecklistItemCommand, bool>
 {
     public async Task<bool> Handle(DeleteChecklistItemCommand request, CancellationToken cancellationToken)
     {

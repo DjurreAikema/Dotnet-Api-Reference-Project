@@ -34,7 +34,7 @@ public class CreateChecklistItemCommandValidator : AbstractValidator<CreateCheck
 }
 
 // --- Handler
-public class CreateChecklistItemCommandHandler(IChecklistRepository repository) : IRequestHandler<CreateChecklistItemCommand, ChecklistItemDto>
+public class CreateChecklistItemCommandHandler(IChecklistItemRepository repository) : IRequestHandler<CreateChecklistItemCommand, ChecklistItemDto>
 {
     public async Task<ChecklistItemDto> Handle(CreateChecklistItemCommand request, CancellationToken cancellationToken)
     {

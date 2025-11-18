@@ -32,7 +32,7 @@ public class UpdateChecklistItemCommandValidator : AbstractValidator<UpdateCheck
 }
 
 // --- Handler
-public class UpdateChecklistItemCommandHandler(IChecklistRepository repository, IMemoryCache cache) : IRequestHandler<UpdateChecklistItemCommand, ChecklistItemDto?>
+public class UpdateChecklistItemCommandHandler(IChecklistItemRepository repository, IMemoryCache cache) : IRequestHandler<UpdateChecklistItemCommand, ChecklistItemDto?>
 {
     public async Task<ChecklistItemDto?> Handle(UpdateChecklistItemCommand request, CancellationToken cancellationToken)
     {

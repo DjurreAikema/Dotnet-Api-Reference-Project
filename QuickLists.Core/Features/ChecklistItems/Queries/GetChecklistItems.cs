@@ -12,7 +12,7 @@ public record GetChecklistItemsQuery(string ChecklistId) : IRequest<IEnumerable<
 }
 
 // --- Handler
-public class GetChecklistItemsQueryHandler(IChecklistRepository repository) : IRequestHandler<GetChecklistItemsQuery, IEnumerable<ChecklistItemDto>>
+public class GetChecklistItemsQueryHandler(IChecklistItemRepository repository) : IRequestHandler<GetChecklistItemsQuery, IEnumerable<ChecklistItemDto>>
 {
     public async Task<IEnumerable<ChecklistItemDto>> Handle(GetChecklistItemsQuery request, CancellationToken cancellationToken)
     {

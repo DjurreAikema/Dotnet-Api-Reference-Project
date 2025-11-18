@@ -38,6 +38,7 @@ try
     );
 
     builder.Services.AddScoped<IChecklistRepository, ChecklistRepository>();
+    builder.Services.AddScoped<IChecklistItemRepository, ChecklistItemRepository>();
 
     builder.Services.AddSingleton<ICacheKeyRegistry, CacheKeyRegistry>();
     builder.Services.AddSingleton<ICacheMetrics, CacheMetrics>();
