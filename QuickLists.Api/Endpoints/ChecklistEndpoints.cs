@@ -47,9 +47,15 @@ public static class ChecklistEndpoints
                 var updateCommand = command with {Id = id};
                 var result = await mediator.Send(updateCommand);
 
-                return result == null
-                    ? Results.NotFound()
-                    : Results.Ok(result);
+                return result.IsSuccess
+                    ? Results.Ok(result.Value)
+                    : result.Error.Code switch
+                    {
+                        "NotFound" => Results.NotFound(new {error = result.Error.Message}),
+                        "Forbidden" => Results.Forbid(),
+                        "Conflict" => Results.Conflict(new {error = result.Error.Message}),
+                        _ => Results.BadRequest(new {error = result.Error.Message})
+                    };
             })
             .WithName("UpdateChecklist");
 

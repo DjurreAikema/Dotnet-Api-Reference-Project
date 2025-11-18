@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
 using QuickLists.Core.Caching;
+using QuickLists.Core.Common;
 using QuickLists.Core.DTOs;
 using QuickLists.Core.Interfaces;
 using QuickLists.Core.Models;
@@ -8,7 +9,7 @@ using QuickLists.Core.Models;
 namespace QuickLists.Core.Features.Checklists.Commands;
 
 // --- Command
-public record UpdateChecklistCommand(string Id, string Title) : IRequest<ChecklistDto?>, ICacheInvalidator
+public record UpdateChecklistCommand(string Id, string Title) : IRequest<Result<ChecklistDto>>, ICacheInvalidator
 {
     public IEnumerable<string> CacheKeysToInvalidate =>
     [
@@ -34,11 +35,15 @@ public class UpdateChecklistCommandValidator : AbstractValidator<UpdateChecklist
 }
 
 // --- Handler
-public class UpdateChecklistCommandHandler(IChecklistRepository repository) : IRequestHandler<UpdateChecklistCommand, ChecklistDto?>
+public class UpdateChecklistCommandHandler(IChecklistRepository repository) : IRequestHandler<UpdateChecklistCommand, Result<ChecklistDto>>
 {
-    public async Task<ChecklistDto?> Handle(UpdateChecklistCommand request, CancellationToken cancellationToken)
+    public async Task<Result<ChecklistDto>> Handle(UpdateChecklistCommand request, CancellationToken cancellationToken)
     {
         // TODO Add authorization check
+        // if (!userHasAccess)
+        // {
+            // return Result<ChecklistDto>.Forbidden("You don't have permission to update this checklist");
+        // }
 
         var checklist = new Checklist
         {
@@ -48,7 +53,7 @@ public class UpdateChecklistCommandHandler(IChecklistRepository repository) : IR
 
         var updated = await repository.UpdateChecklistAsync(checklist);
         return updated == null
-            ? null
-            : new ChecklistDto(updated.Id, updated.Title);
+            ? Result<ChecklistDto>.NotFound($"Checklist with Id '{request.Id}' not found")
+            : Result<ChecklistDto>.Success(new ChecklistDto(updated.Id, updated.Title));
     }
 }
