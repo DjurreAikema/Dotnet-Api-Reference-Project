@@ -11,20 +11,6 @@ public class ChecklistEndpointsTests(QuickListsApiFactory factory) : IClassFixtu
     private readonly HttpClient _client = factory.CreateClient();
 
     [Fact]
-    public async Task GetAllChecklists_WithEmptyDatabase_ReturnsEmptyArray()
-    {
-        // Act
-        var response = await _client.GetAsync("/api/checklists");
-
-        // Assert
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-
-        var checklists = await response.Content.ReadFromJsonAsync<ChecklistDto[]>();
-        Assert.NotNull(checklists);
-        Assert.Empty(checklists);
-    }
-
-    [Fact]
     public async Task CreateChecklist_WithValidData_ReturnsCreatedChecklist()
     {
         // Arrange

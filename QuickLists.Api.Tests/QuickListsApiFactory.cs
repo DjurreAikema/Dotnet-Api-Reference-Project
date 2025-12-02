@@ -9,19 +9,22 @@ namespace QuickLists.Api.Tests;
 
 public class QuickListsApiFactory : WebApplicationFactory<Program>
 {
+    private static readonly string TestDbName = $"TestDb_{Guid.NewGuid()}";
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureServices(services =>
         {
-            // Remove the real database configuration
-            var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IDbContextOptionsConfiguration<ApplicationDbContext>));
+            var descriptor = services.SingleOrDefault(d =>
+                d.ServiceType == typeof(IDbContextOptionsConfiguration<ApplicationDbContext>));
             if (descriptor != null)
             {
                 services.Remove(descriptor);
             }
 
-            // Add an in-memory database instead
-            services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase($"TestDb_{Guid.NewGuid()}"));
+            // Use the SAME database name for all requests in a test class
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseInMemoryDatabase(TestDbName));
         });
     }
 }
