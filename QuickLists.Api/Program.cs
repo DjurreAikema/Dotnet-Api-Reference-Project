@@ -91,6 +91,11 @@ try
     app.UseCors("AllowAngular");
 
     // Map Endpoints
+    if (app.Environment.IsDevelopment())
+    {
+        app.MapDevEndpoints();
+    }
+
     app.MapChecklistEndpoints();
     app.MapChecklistItemEndpoints();
 
